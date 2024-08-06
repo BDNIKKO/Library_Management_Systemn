@@ -1,46 +1,57 @@
 package org.example;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Library {
     private final List<Book> books;
+    private final List<User> users;
 
     public Library() {
         this.books = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
-    // Add a book to the library
     public void addBook(Book book) {
         books.add(book);
     }
 
-    // Remove a book from the library by title
     public void removeBookByTitle(String title) {
         books.removeIf(book -> book.getTitle().equalsIgnoreCase(title));
     }
 
-    // Find all books by a specific author
+    public List<Book> findBooksByYear(int year) {
+        return books.stream()
+                .filter(book -> book.getPublicationYear() == year)
+                .collect(Collectors.toList());
+    }
+
     public List<Book> findBooksByAuthor(String author) {
         return books.stream()
                 .filter(book -> book.getAuthor().equalsIgnoreCase(author))
                 .collect(Collectors.toList());
     }
 
-    // Find the book with the most pages
-    public Optional<Book> findBookWithMostPages() {
+    public Book findBookWithMostPages() {
         return books.stream()
-                .max(Comparator.comparingInt(Book::getPages));
+                .max(Comparator.comparingInt(Book::getPages))
+                .orElse(null);
     }
 
-    // Find all books with more than n pages
     public List<Book> findBooksWithMoreThanNPages(int n) {
         return books.stream()
                 .filter(book -> book.getPages() > n)
                 .collect(Collectors.toList());
     }
 
-    // Print all book titles in the library, sorted alphabetically
+    public List<Book> findBooksByCategory(String category) {
+        return books.stream()
+                .filter(book -> book.getCategory().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
+    }
+
     public void printAllBookTitles() {
         books.stream()
                 .map(Book::getTitle)
@@ -48,37 +59,41 @@ public class Library {
                 .forEach(System.out::println);
     }
 
-    // Find all books in a specific category
-    public List<Book> findBooksByCategory(String category) {
-        return books.stream()
-                .filter(book -> book.getCategory().equalsIgnoreCase(category))
-                .collect(Collectors.toList());
+    public void loanBookToUser(String title, User user) {
+        Book book = findBookByTitle(title);
+        if (book != null && !book.isOnLoan()) {
+            user.loanBook(book);
+        }
     }
 
-    // Find books by title
-    public List<Book> findBooksByTitle(String title) {
+    public void returnBookFromUser(String title, User user) {
+        Book book = findBookByTitle(title);
+        if (book != null && book.isOnLoan()) {
+            user.returnBook(book);
+        }
+    }
+
+    public Book findBookByTitle(String title) {
         return books.stream()
                 .filter(book -> book.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public User findUserByLibraryCardNumber(String libraryCardNumber) {
+        return users.stream()
+                .filter(user -> user.getLibraryCardNumber().equalsIgnoreCase(libraryCardNumber))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<User> findUsersByName(String name) {
+        return users.stream()
+                .filter(user -> user.getName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
-    }
-
-    // Loan out a book
-    public void loanBook(String title) {
-        books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title) && !book.isOnLoan())
-                .findFirst()
-                .ifPresent(book -> book.setOnLoan(true));
-    }
-
-    // Return a book
-    public void returnBook(String title) {
-        books.stream()
-                .filter(book -> book.getTitle().equalsIgnoreCase(title) && book.isOnLoan())
-                .findFirst()
-                .ifPresent(book -> book.setOnLoan(false));
-    }
-
-    public List<Book> getBooks() {
-        return books;
     }
 }
