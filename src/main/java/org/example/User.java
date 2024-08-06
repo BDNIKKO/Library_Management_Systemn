@@ -51,7 +51,7 @@ public class User {
         }
         long daysLate = LocalDate.now().toEpochDay() - loanDate.toEpochDay();
         if (daysLate > 14) {
-            return (daysLate - 14) * 0.5; // 0.5 currency units per day late
+            return (daysLate - 14) * 0.5; // 0.5 cents per day late
         }
         return 0;
     }

@@ -20,54 +20,67 @@ public class Main {
         library.addUser(triss);
         library.addUser(yennefer);
 
-        System.out.println("All book titles:");
+        // Display all book titles
+        System.out.println("\nAll book titles:");
         library.printAllBookTitles();
 
+        // Find and display books by Andrzej Sapkowski
         System.out.println("\nBooks by Andrzej Sapkowski:");
         library.findBooksByAuthor("Andrzej Sapkowski").forEach(System.out::println);
 
+        // Loan out 'The Last Wish' to Triss
         System.out.println("\nLoan out 'The Last Wish' to Triss:");
         library.loanBookToUser("The Last Wish", triss);
         System.out.println(triss);
 
+        // Attempt to loan 'The Last Wish' to Yennefer
         System.out.println("\nAttempt to loan 'The Last Wish' to Yennefer:");
         library.loanBookToUser("The Last Wish", yennefer);
         System.out.println(yennefer);
 
+        // Triss returns 'The Last Wish'
         System.out.println("\nTriss returns 'The Last Wish':");
         library.returnBookFromUser("The Last Wish", triss);
         System.out.println(triss);
 
+        // Loan out 'The Last Wish' to Yennefer
         System.out.println("\nLoan out 'The Last Wish' to Yennefer:");
         library.loanBookToUser("The Last Wish", yennefer);
         System.out.println(yennefer);
 
+        // Remove 'Sword of Destiny' from the library
         System.out.println("\nRemoving 'Sword of Destiny' from the library:");
         library.removeBookByTitle("Sword of Destiny");
         System.out.println("All book titles after removal:");
         library.printAllBookTitles();
 
+        // Find and display the book with the most pages
         System.out.println("\nBook with the most pages:");
         System.out.println(library.findBookWithMostPages());
 
+        // Find and display books with more than 250 pages
         System.out.println("\nBooks with more than 250 pages:");
         library.findBooksWithMoreThanNPages(250).forEach(System.out::println);
 
+        // Find and display books in the 'Fantasy' category
         System.out.println("\nBooks in the 'Fantasy' category:");
         library.findBooksByCategory("Fantasy").forEach(System.out::println);
 
+        // Display the publication years of all books
         System.out.println("\nPublication years of all books:");
         library.findBooksByYear(1993).forEach(book -> System.out.println(book.getTitle() + " was published in " + book.getPublicationYear()));
         library.findBooksByYear(1992).forEach(book -> System.out.println(book.getTitle() + " was published in " + book.getPublicationYear()));
         library.findBooksByYear(1994).forEach(book -> System.out.println(book.getTitle() + " was published in " + book.getPublicationYear()));
         library.findBooksByYear(1995).forEach(book -> System.out.println(book.getTitle() + " was published in " + book.getPublicationYear()));
 
+        // Display user information
         System.out.println("\nUser information:");
         System.out.println("Name: " + triss.getName());
         System.out.println("Library Card Number: " + triss.getLibraryCardNumber());
         System.out.println("Books on Loan: " + triss.getBooksOnLoan());
         System.out.println("Loan Date: " + triss.getLoanDate());
 
+        // Loan out 'Time of Contempt' to Triss
         System.out.println("\nLoan out 'Time of Contempt' to Triss:");
         library.loanBookToUser("Time of Contempt", triss);
         System.out.println(triss);
